@@ -18,19 +18,18 @@ console.log("Connection to DB succeeded")});
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var dogsRouter = require('./routes/dog');
+var dogRouter = require('./routes/dog');
 var boardRouter = require('./routes/board');
 var chooseRouter = require('./routes/choose');
-var resourceRouter = require('./routes/resource');
-var dogs=require('./models/dog');
-
+var dog=require('./models/dog');
+//var resourceRouter=require('./routes/resource');
 
 async function recreateDB(){
   // Delete everything
-  await hats.deleteMany();
-  let instance1=new dogs({ style: 'Fedora', color: 'Black', price: 50 });
-  let instance2= new dogs({ style: 'Beanie', color: 'Red', price: 20 });
-  let instance3=new dogs({ style: 'Top Hat', color: 'Purple', price: 80 });
+  await dog.deleteMany();
+  let instance1=new dog({ breed: 'Pug', color: 'Black', cost: 100 });
+  let instance2= new dog({ breed: 'Golden Retriever', color: 'Gold', cost: 200 });
+  let instance3=new dog({ breed: 'Bulldog', color: 'white', cost: 300 });
 
   instance1.save().then(doc=>{
   console.log("First object saved")}
@@ -66,10 +65,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/dogs',dogsRouter)
+app.use('/dog',dogRouter)
 app.use('/board',boardRouter)
 app.use('/choose',chooseRouter)
-app.use('/resource',resourceRouter)
+//app.use('/resource',resourceRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

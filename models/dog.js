@@ -1,8 +1,8 @@
 const { Double } = require("mongodb")
 const mongoose = require("mongoose")
 const dogsSchema = mongoose.Schema({
-style: String,
+breed: String,
 color: String,
-price:Number,
+cost:Number,
 })
 module.exports = mongoose.model("dog",dogsSchema)
