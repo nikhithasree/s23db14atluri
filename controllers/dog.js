@@ -1,24 +1,40 @@
 var dog = require('../models/dog');
-// List of all dogs
+// List of all dog
 exports.dog_list = function(req, res) {
-res.send('NOT IMPLEMENTED: dogs list');
+res.send('NOT IMPLEMENTED: dog list');
 };
-// for a specific hats.
+// for a specific dog.
 exports.dog_detail = function(req, res) {
-res.send('NOT IMPLEMENTED: hats detail: ' + req.params.id);
+res.send('NOT IMPLEMENTED: dog detail: ' + req.params.id);
 };
-// Handle hats create on POST.
-exports.costume_create_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Costume create POST');
+// Handle dog create on POST.
+exports.dog_create_post = async function(req, res) {
+    console.log(req.body)
+    let document = new dog();
+    // We are looking for a body, since POST does not have query parameters.
+    // Even though bodies can be in many different formats, we will be picky
+    // and require that it be a json object
+    // {"dog_type":"goat", "cost":12, "size":"large"}
+    document.breed = req.body.breed;
+    document.color = req.body.color;
+    document.cost = req.body.cost;
+    try{
+        let result = await document.save();
+        res.send(result);
+    }
+    catch(err){
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+    }
 };
 
-// Handle dogs delete form on DELETE.
+// Handle dog delete form on DELETE.
 exports.dog_delete = function(req, res) {
-res.send('NOT IMPLEMENTED: dogs delete DELETE ' + req.params.id);
+res.send('NOT IMPLEMENTED: dog delete DELETE ' + req.params.id);
 };
-// Handle hats update form on PUT.
+// Handle dog update form on PUT.
 exports.dog_update_put = function(req, res) {
-res.send('NOT IMPLEMENTED: dogs update PUT' + req.params.id);
+res.send('NOT IMPLEMENTED: dog update PUT' + req.params.id);
 };
 
 exports.dog_list = async function(req, res) {
@@ -35,7 +51,7 @@ exports.dog_list = async function(req, res) {
     exports.dog_view_all_Page = async function(req, res) {
         try{
         thedog = await dog.find();
-        res.render('dog', { title: 'dogs Search Results', DBresults: thedog });
+        res.render('dog', { title: 'dog Search Results', DBresults: thedog });
         }
         catch(err){
         res.status(500);

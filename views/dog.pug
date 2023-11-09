@@ -5,27 +5,27 @@ block content
   -
     let results = [
       {
-        "dogs_breed": "Pug",
-        "dogs_color": "Black",
-        "dogs_cost": 100
+        "breed": "Pug",
+        "color": "Black",
+        "cost": 100
       },
       {
-        "dogs_breed": "Golden Retriever",
-        "dogs_color": "Gold",
-        "dogs_cost": 200
+        "breed": "Golden Retriever",
+        "color": "Gold",
+        "cost": 200
       },
       {
-        "dogs_breed": "Bulldog",
-        "dogs_color": "White",
-        "dogs_cost": 300
+        "breed": "Bulldog",
+        "color": "White",
+        "cost": 300
       },                   
     ]
   div(class= "container-fluid")
     div(class = "row")
       each item,index in results
-        div(class= "col-sm-2", onclick=`buy(${index})`) Breed: #{item.dogs_breed}
-        div(class= "col-sm-2", onclick=`buy(${index})`) Color: #{item.dogs_color}
-        div(class= "col-sm-2", onclick=`buy(${index})`) Cost: #{item.dogs_cost}
+        div(class= "col-sm-2", onclick=`buy(${index})`) Breed: #{item.breed}
+        div(class= "col-sm-2", onclick=`buy(${index})`) Color: #{item.color}
+        div(class= "col-sm-2", onclick=`buy(${index})`) Cost: #{item.cost}
         br
         br
         

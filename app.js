@@ -22,7 +22,7 @@ var dogRouter = require('./routes/dog');
 var boardRouter = require('./routes/board');
 var chooseRouter = require('./routes/choose');
 var dog=require('./models/dog');
-//var resourceRouter=require('./routes/resource');
+var resourceRouter=require('./routes/resource');
 
 async function recreateDB(){
   // Delete everything
@@ -68,7 +68,7 @@ app.use('/users', usersRouter);
 app.use('/dog',dogRouter)
 app.use('/board',boardRouter)
 app.use('/choose',chooseRouter)
-//app.use('/resource',resourceRouter)
+app.use('/resource',resourceRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
