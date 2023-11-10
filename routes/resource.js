@@ -3,6 +3,7 @@ var router = express.Router();
 // Require controller modules.
 var api_controller = require('../controllers/api');
 var dog_controller = require('../controllers/dog');
+const dog = require('../models/dog');
 /// API ROUTE ///
 // GET resources base.
 router.get('/', api_controller.api);
@@ -18,3 +19,5 @@ router.get('/dog/:id', dog_controller.dog_detail);
 // GET request for list of all dogs items.
 router.get('/dog', dog_controller.dog_list);
 module.exports = router;
+
+
