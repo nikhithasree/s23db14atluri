@@ -6,3 +6,38 @@ body {
 a {
   color: #00B7FF;
 }
+
+.dogAttr {
+  background-color: aquamarine;
+  width: 120px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .dogAttrInput {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    margin-top: 5px;
+  }
+  
+  .dogAttrSubmit {
+    background-color: #00B7FF;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  
+  .row-margin {
+    margin-bottom: 2rem;
+  }
+  
+  .label-margin {
+    margin-right: 1rem;
+  }
+  
