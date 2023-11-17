@@ -21,15 +21,22 @@ block content
       },                   
     ]
   div(class= "container-fluid")
-    div(class = "row")
+    div(class = "row m-1")
       each item,index in results
+        - let destination = `dispatch(\"/dog/update?id=${item._id}\")`
         div(class= "col-sm-2", onclick=`buy(${index})`) Breed: #{item.breed}
         div(class= "col-sm-2", onclick=`buy(${index})`) Color: #{item.color}
         div(class= "col-sm-2", onclick=`buy(${index})`) Cost: #{item.cost}
+        button.btn.btn-primary(onclick=destination) Update
+
         br
         br
         
   script.
-    function buy(itemNum){
-      alert(`You purchased item ${itemNum+1}`)
+    //- function buy(itemNum){
+    //-   alert(`You purchased item ${itemNum+1}`)
+    //- }
+    function dispatch(path){
+      window.location.href=path
     }
+
