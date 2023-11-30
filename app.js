@@ -76,9 +76,9 @@ db.once("open", function () {
 async function recreateDB() {
   // Delete everything
   await dog.deleteMany();
-  let instance1 = new dog({ Breed: 'Pug', Color: 'Black', Cost: 100 });
-  let instance2 = new dog({ Breed: 'Golden Retriever', Color: 'Gold', Cost: 200 });
-  let instance3 = new dog({ Breed: 'Bulldog', Color: 'White', Cost: 300 });
+  let instance1 = new dog({ breed: 'Pug', color: 'Black', cost: 100 });
+  let instance2 = new dog({ breed: 'Retriever', color: 'Gold', cost: 200 });
+  let instance3 = new dog({ breed: 'Bulldog', color: 'White', cost: 300 });
 
   instance1.save().then(doc => {
     console.log("First object saved")

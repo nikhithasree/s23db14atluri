@@ -11,7 +11,7 @@ breed: {
         validator: function (v) {
             return /^[a-zA-Z0-9_]+$/.test(v); 
         },
-        message: props => `${props.value} is not a valid username! Use only letters, numbers, and underscores.`,
+        message: props => `${props.value} is not a valid breed! Use only letters, numbers, and underscores.`,
     },
 },
 color: {
@@ -20,7 +20,7 @@ color: {
         validator: function(v) {
             return /^[a-zA-Z0-9_]+$/.test(v); 
         },
-        message: props => `${props.value} is not a valid price! Price must be a non-negative number.`,
+        message: props => `${props.value} is not a valid color! Use only letters, numbers, and underscores.`,
     },
 },
 cost: {
@@ -29,7 +29,7 @@ cost: {
         validator: function(v) {
             return v >= 0; 
         },
-        message: props => `${props.value} is not a valid price! Price must be a non-negative number.`,
+        message: props => `${props.value} is not a valid cost! cost must be a non-negative number.`,
     },
 },
 })
