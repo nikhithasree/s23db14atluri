@@ -6,30 +6,24 @@ var logger = require('morgan');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-require('dotenv').config();
-const connectionString =
-  process.env.MONGO_CON
-mongoose = require('mongoose');
-mongoose.connect(connectionString);
-
-const Schema = mongoose.Schema;
-const passportLocalMongoose = require("passport-local-mongoose");
-const accountSchema = new Schema({
-  username: String,
-  password: String
-});
-accountSchema.plugin(passportLocalMongoose);
-// We export the Schema to avoid attaching the model to the
-// default mongoose connection.
-module.exports = mongoose.model("Account", accountSchema);
-
-
-var db = mongoose.connection;
-//Bind connection to error event
-db.on('error', console.error.bind(console, 'MongoDB connectionerror:'));
-db.once("open", function () {
-  console.log("Connection to DB succeeded")
-});
+passport.use(new LocalStrategy(
+  function (username, password, done) {
+    Account.findOne({ username: username })
+      .then(function (user) {
+        if (err) { return done(err); }
+        if (!user) {
+          return done(null, false, { message: 'Incorrect username.' });
+        }
+        if (!user.validPassword(password)) {
+          return done(null, false, { message: 'Incorrect password.' });
+        }
+        return done(null, user);
+      })
+      .catch(function (err) {
+        return done(err)
+      })
+  })
+)
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -39,12 +33,52 @@ var chooseRouter = require('./routes/choose');
 var dog = require('./models/dog');
 var resourceRouter = require('./routes/resource');
 
+var app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/dog', dogRouter)
+app.use('/board', boardRouter)
+app.use('/choose', chooseRouter)
+app.use('/resource', resourceRouter)
+require('dotenv').config();
+const connectionString = process.env.MONGO_CON
+mongoose = require('mongoose');
+mongoose.connect(connectionString);
+
+
+var db = mongoose.connection;
+//Bind connection to error event
+db.on('error', console.error.bind(console, 'MongoDB connectionerror:'));
+db.once("open", function () {
+  console.log("Connection to DB succeeded")
+});
+
+
+
 async function recreateDB() {
   // Delete everything
   await dog.deleteMany();
-  let instance1 = new dog({ breed: 'Pug', color: 'Black', cost: 100 });
-  let instance2 = new dog({ breed: 'Golden Retriever', color: 'Gold', cost: 200 });
-  let instance3 = new dog({ breed: 'Bulldog', color: 'white', cost: 300 });
+  let instance1 = new dog({ Breed: 'Pug', Color: 'Black', Cost: 100 });
+  let instance2 = new dog({ Breed: 'Golden Retriever', Color: 'Gold', Cost: 200 });
+  let instance3 = new dog({ Breed: 'Bulldog', Color: 'White', Cost: 300 });
 
   instance1.save().then(doc => {
     console.log("First object saved")
@@ -70,32 +104,10 @@ if (reseed) {
   recreateDB();
 }
 
-var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/dog', dogRouter)
-app.use('/board', boardRouter)
-app.use('/choose', chooseRouter)
-app.use('/resource', resourceRouter)
-
-app.use(require('express-session')({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: false
-}));
-app.use(passport.initialize());
-app.use(passport.session());
+var Account = require("./models/account");
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -113,23 +125,5 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-passport.use(new LocalStrategy(
-  function (username, password, done) {
-    Account.findOne({ username: username })
-      .then(function (user) {
-        if (err) { return done(err); }
-        if (!user) {
-          return done(null, false, { message: 'Incorrect username.' });
-        }
-        if (!user.validPassword(password)) {
-          return done(null, false, { message: 'Incorrect password.' });
-        }
-        return done(null, user);
-      })
-      .catch(function (err) {
-        return done(err)
-      })
-  })
-)
 
 module.exports = app;
