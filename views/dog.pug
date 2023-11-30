@@ -8,8 +8,6 @@ block content
         div(class="row m-1")
             each v,index in results 
                 - let destination = `dispatch(\"/dog/update?id=${v._id}\")`
-                - let details = `dispatch(\"/dog/detail?id=${v._id}\")`
-                - let deleteItem = `dispatch(\"/dog/delete?id=${v._id}\")`
                 div(class="col-sm-2 p-10 m-2" class="m-1" onClick=`buy(${i})`) 
                     p Vehicle Name: #{v.breed}
                     p Vehicle Mileage: #{v.color}

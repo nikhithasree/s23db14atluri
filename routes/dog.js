@@ -13,7 +13,7 @@ const secured = (req, res, next) => {
 router.get('/', function(req, res, next) {
   res.render('dog', { title: 'Search Results dog' });
   //GET request for one costume.
-  router.get('/dog/:id', dog_controller.dog_detail)
+  router.get('/dog/:id', dog_controllers.dog_detail)
 });
 
 /* GET detail dog page */
