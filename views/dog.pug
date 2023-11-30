@@ -1,42 +1,32 @@
 extends layout
 
 block content
-  h1= title
-  -
-    let results = [
-      {
-        "breed": "Pug",
-        "color": "Black",
-        "cost": 100
-      },
-      {
-        "breed": "Golden Retriever",
-        "color": "Gold",
-        "cost": 200
-      },
-      {
-        "breed": "Bulldog",
-        "color": "White",
-        "cost": 300
-      },                   
-    ]
-  div(class= "container-fluid")
-    div(class = "row m-1")
-      each item,index in results
-        - let destination = `dispatch(\"/dog/update?id=${item._id}\")`
-        div(class= "col-sm-2", onclick=`buy(${index})`) Breed: #{item.breed}
-        div(class= "col-sm-2", onclick=`buy(${index})`) Color: #{item.color}
-        div(class= "col-sm-2", onclick=`buy(${index})`) Cost: #{item.cost}
-        button.btn.btn-primary(onclick=destination) Update
+    h1= title
+    button.btn.btn-primary(onClick=`dispatch(\"/dog/create\")`) Create Vehicle
+    - let items = results
+    div(class="container-fluid")
+        div(class="row m-1")
+            each v,index in results 
+                - let destination = `dispatch(\"/dog/update?id=${v._id}\")`
+                - let details = `dispatch(\"/dog/detail?id=${v._id}\")`
+                - let deleteItem = `dispatch(\"/dog/delete?id=${v._id}\")`
+                div(class="col-sm-2 p-10 m-2" class="m-1" onClick=`buy(${i})`) 
+                    p Vehicle Name: #{v.breed}
+                    p Vehicle Mileage: #{v.color}
+                    p Vehicle Price: #{v.cost}
+                    div(class="row")
+                        button.btn( class="btn-primary ml-1", onclick= destination) Update
+                        button.btn.btn-success.m-2(onclick=details) View Details
+                        button.btn.btn-danger.m-2(onclick=deleteItem) Delete
+    
+    script.
+        function dispatch(path){
+            window.location.href=path
+        }
 
-        br
-        br
-        
-  script.
-    //- function buy(itemNum){
-    //-   alert(`You purchased item ${itemNum+1}`)
-    //- }
-    function dispatch(path){
-      window.location.href=path
-    }
+        function buy(a)
+        {
+            //- alert(`You purchased Item ${a+1}`)
+        }
 
+    
