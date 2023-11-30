@@ -6,25 +6,22 @@ block content
     - let items = results
     div(class="container-fluid")
         div(class="row m-1")
-            each v,index in results 
-                - let destination = `dispatch(\"/dog/update?id=${v._id}\")`
-                div(class="col-sm-2 p-10 m-2" class="m-1" onClick=`buy(${i})`) 
-                    p Vehicle Name: #{v.breed}
-                    p Vehicle Mileage: #{v.color}
-                    p Vehicle Price: #{v.cost}
-                    div(class="row")
-                        button.btn( class="btn-primary ml-1", onclick= destination) Update
-                        button.btn.btn-success.m-2(onclick=details) View Details
-                        button.btn.btn-danger.m-2(onclick=deleteItem) Delete
-    
+            - if (results && results.length > 0)
+                each n,index in results 
+                    - let destination = `dispatch(\"/dog/update?id=${n._id}\")`
+                    - let details = `dispatch(\"/dog/detail?id=${n._id}\")`
+                    - let deleteItem = `dispatch(\"/dog/delete?id=${n._id}\")`
+                    div(class="col-sm-2 p-10 m-2" class="m-1") 
+                        p Dog Breed: #{n.breed}
+                        p Dog Color: #{n.color}
+                        p Dog Cost: #{n.cost}
+                        div(class="row")
+                            button.btn( class="btn-primary ml-1", onclick= destination) Update
+                            button.btn.btn-success.m-2(onclick=details) View Details
+                            button.btn.btn-danger.m-2(onclick=deleteItem) Delete
     script.
         function dispatch(path){
             window.location.href=path
         }
 
-        function buy(a)
-        {
-            //- alert(`You purchased Item ${a+1}`)
-        }
-
-    
+        

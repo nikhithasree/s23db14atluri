@@ -8,17 +8,17 @@ const secured = (req, res, next) => {
   }
   res.redirect("/login");
 }
-
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('dog', { title: 'Search Results dog' });
+router.get('/', dog_controllers.dog_view_all_Page);
+// /* GET home page. */
+// router.get('/', function(req, res, next) {
+//   res.render('dog', { title: 'Search Results dog' });
   //GET request for one costume.
-  router.get('/dog/:id', dog_controllers.dog_detail)
-});
+  router.get('/dog/:id', dog_controllers.dog_detail);
 
 /* GET detail dog page */
-router.get('/detail', dog_controllers.dog_view_one_Page);
-module.exports = router;
+router.get('/detail', secured,dog_controllers.dog_view_one_Page);
+
 
 /* GET create dog page */
 router.get('/create', secured, dog_controllers.dog_create_Page);
@@ -28,3 +28,4 @@ router.get('/update', secured, dog_controllers.dog_update_Page);
 
 /* GET delete dog page */
 router.get('/delete', secured, dog_controllers.dog_delete_Page);
+module.exports = router;
